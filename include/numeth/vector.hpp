@@ -42,7 +42,9 @@ public:
 		return;
 	}
 
-	int getSize() const;
+	int getSize() const {
+		return this->size;
+	}
 
 	T at(const int& index) const {
 		return this->data[index]
@@ -71,5 +73,4 @@ private:
 
 };
 
-#include "vector.cpp"
 #endif
