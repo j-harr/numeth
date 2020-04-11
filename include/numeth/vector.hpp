@@ -3,74 +3,76 @@
 #include <assert.h>
 #include <memory>
 
-template<typename T>
-class vector {
-	
-public:
+namespace numeth {
 
-	vector(const int& size) {
-		assert(size >= 0);
-		this->size = size;
-		this->data = std::make_unique <T[]>(size);
-	}
+	template<typename T>
+	class vector {
 
-	~vector() {
-		this->data.reset();
-	}
+	public:
 
-	vector<T>& operator=(const vector<T>& rhs) {
-		size = rhs.getSize();
-		this->data = std::make_unique <T[]>(rhs.getSize());
-		
-		copy(rhs);
-
-		return *this;
-	}
-
-	vector(const vector<T>& source) {
-		size = source.getSize();
-		data = make_unique<T[]>(size);
-
-		copy(source);
-	}
-
-	void copy(const vector<T>& source) {
-		for (int i = 0; i < size; i++) {
-			data.get()[i] = source.data.get()[i];
+		vector(const int& size) {
+			assert(size >= 0);
+			this->size = size;
+			this->data = std::make_unique <T[]>(size);
 		}
 
-		return;
-	}
+		~vector() {
+			this->data.reset();
+		}
 
-	int getSize() const {
-		return this->size;
-	}
+		vector<T>& operator=(const vector<T>& rhs) {
+			size = rhs.getSize();
+			this->data = std::make_unique <T[]>(rhs.getSize());
 
-	T at(const int& index) const {
-		return this->data[index]
-	}
+			copy(rhs);
 
-	T& at(const int& index) {
-		return this->data[index];
-	}
+			return *this;
+		}
 
-	void clear() {
-		this->data.reset();
-		this->data = std::make_unique<T[]>(size);
-	}
+		vector(const vector<T>& source) {
+			size = source.getSize();
+			data = make_unique<T[]>(size);
 
-	T& operator[](int index) {
-		return data.get()[index];
-	}
+			copy(source);
+		}
 
-	T operator[](int index) const {
-		return data.get()[index];
-	}
+		void copy(const vector<T>& source) {
+			for (int i = 0; i < size; i++) {
+				data.get()[i] = source.data.get()[i];
+			}
 
-private:
-	std::unique_ptr<T[]> data;
-	int size;
+			return;
+		}
 
-};
+		int getSize() const {
+			return this->size;
+		}
+
+		T at(const int& index) const {
+			return this->data[index]
+		}
+
+		T& at(const int& index) {
+			return this->data[index];
+		}
+
+		void clear() {
+			this->data.reset();
+			this->data = std::make_unique<T[]>(this->size);
+		}
+
+		T& operator[](int index) {
+			return data.get()[index];
+		}
+
+		T operator[](int index) const {
+			return data.get()[index];
+		}
+
+	private:
+		std::unique_ptr<T[]> data;
+		int size;
+	};
+}
 
 #endif
